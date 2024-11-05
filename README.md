@@ -2,7 +2,7 @@
 
 ## Usage
 
-To train LeNet300 model on 2/1 GPUs run: `python main.py --kernel Kernel --max_rank 2/1` command. results for Custom CUDA kernel are saved in results folder.
+To train LeNet300 model on 2/1 GPUs run: `python main.py --kernel Kernel --max_rank 2/1` command. result for Custom CUDA kernel are saved in result folder.
  
 For compiling the kernel, enter the following command in the `deep-codegen` directory:
 ```bash
