@@ -1,0 +1,31 @@
+import torch as th
+from . import gp_apis
+
+class custom_linear_with_bias_impl(th.autograd.Function):
+    @staticmethod
+    def forward(ctx, input1, input2, bias):
+        dim1_0 = input1.shape[0]
+        dim1_1 = input2.shape[0]
+        #print(input1.size(), input2.size())
+        #print(bias.size())
+        res = gp_apis.gp_linear_with_bias(input1, input2, bias, dim1_0, dim1_1, True, False)
+        ctx.backward_cache = (input1, input2, bias) #must be implemented
+        return res
+
+    @staticmethod
+    def backward(ctx, dZ):
+        input1, input2, bias = ctx.backward_cache #must be implemented
+        #print(dZ.size(), input1.size(), input2.size())
+        grad_input = gp_apis.gp_linear_with_bias(dZ, input2.t(), bias, dZ.shape[0], input2.shape[1], False, False)
+        #grad_weight = gp_apis.gp_linear_with_bias(dZ.t(), input1.t(), bias, dZ.shape[1], input1.shape[1], False, False)
+        #grad_weight = gp_apis.gp_linear_with_bias(input1.t(), dZ.t(), bias, input1.shape[1], dZ.shape[1], False, False)
+        #grad_weight = input1.t().mm(dZ)  # dL/dW = X^T dL/dY
+        grad_input = dZ.mm(input2)
+        grad_weight = dZ.t().mm(input1)
+        grad_bias = dZ.sum(0)
+        #print(grad_input.sum(), grad_weight.sum(), grad_bias.sum())
+        #print(grad_input.size(), grad_weight.size(), grad_bias.size())
+        return grad_input, grad_weight, grad_bias
+
+def custom_linear_with_bias(input1, input2, bias):
+    return custom_linear_with_bias_impl.apply(input1, input2, bias)
