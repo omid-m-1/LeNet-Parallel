@@ -1,0 +1,21 @@
+[GPU: 2] | Epoch: [1/10] | Loss: -0.0462, | Accuracy: 73.98%
+[GPU: 1] | Epoch: [1/10] | Loss: -0.0366, | Accuracy: 58.61%
+[GPU: 1] | Epoch: [2/10] | Loss: -0.0451, | Accuracy: 72.28%
+[GPU: 2] | Epoch: [2/10] | Loss: -0.0520, | Accuracy: 83.30%
+[GPU: 2] | Epoch: [3/10] | Loss: -0.0529, | Accuracy: 84.68%
+[GPU: 1] | Epoch: [3/10] | Loss: -0.0462, | Accuracy: 73.96%
+[GPU: 1] | Epoch: [4/10] | Loss: -0.0465, | Accuracy: 74.44%
+[GPU: 2] | Epoch: [4/10] | Loss: -0.0534, | Accuracy: 85.54%
+[GPU: 2] | Epoch: [5/10] | Loss: -0.0538, | Accuracy: 86.09%
+[GPU: 1] | Epoch: [5/10] | Loss: -0.0469, | Accuracy: 75.06%
+[GPU: 2] | Epoch: [6/10] | Loss: -0.0585, | Accuracy: 93.69%
+[GPU: 1] | Epoch: [6/10] | Loss: -0.0471, | Accuracy: 75.50%
+[GPU: 2] | Epoch: [7/10] | Loss: -0.0597, | Accuracy: 95.55%
+[GPU: 1] | Epoch: [7/10] | Loss: -0.0473, | Accuracy: 75.71%
+[GPU: 2] | Epoch: [8/10] | Loss: -0.0600, | Accuracy: 96.05%
+[GPU: 1] | Epoch: [8/10] | Loss: -0.0521, | Accuracy: 83.30%
+[GPU: 2] | Epoch: [9/10] | Loss: -0.0602, | Accuracy: 96.31%
+[GPU: 1] | Epoch: [9/10] | Loss: -0.0531, | Accuracy: 85.08%
+[GPU: 1] | Epoch: [10/10] | Loss: -0.0598, | Accuracy: 95.68%
+[GPU: 2] | Epoch: [10/10] | Loss: -0.0603, | Accuracy: 96.53%
+Test Loss: -0.0599, | Test Accuracy: 95.75%

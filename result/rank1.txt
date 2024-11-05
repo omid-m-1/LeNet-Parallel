@@ -1,0 +1,11 @@
+Epoch: [1/10] | Loss: -0.0509, | Accuracy: 82.08%
+Epoch: [2/10] | Loss: -0.0578, | Accuracy: 92.81%
+Epoch: [3/10] | Loss: -0.0603, | Accuracy: 96.68%
+Epoch: [4/10] | Loss: -0.0607, | Accuracy: 97.26%
+Epoch: [5/10] | Loss: -0.0609, | Accuracy: 97.56%
+Epoch: [6/10] | Loss: -0.0612, | Accuracy: 97.95%
+Epoch: [7/10] | Loss: -0.0613, | Accuracy: 98.14%
+Epoch: [8/10] | Loss: -0.0614, | Accuracy: 98.39%
+Epoch: [9/10] | Loss: -0.0615, | Accuracy: 98.51%
+Epoch: [10/10] | Loss: -0.0616, | Accuracy: 98.64%
+Test Loss: -0.0609, | Test Accuracy: 97.49%

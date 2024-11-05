@@ -13,18 +13,18 @@ class LeNet(torch.nn.Module):
         super(LeNet, self).__init__()
         self.kernel = kernel
         if (self.kernel == 'Custom'):
-            self.W1 = nn.Parameter(init.xavier_uniform_(torch.empty(300, 28*28, requires_grad=True)))
+            self.W1 = nn.Parameter(init.kaiming_uniform_(torch.empty(300, 28*28, requires_grad=True)))
             self.b1 = nn.Parameter(torch.zeros(300, requires_grad=True))
-            self.W2 = nn.Parameter(init.xavier_uniform_(torch.empty(100, 300, requires_grad=True)))
+            self.W2 = nn.Parameter(init.kaiming_uniform_(torch.empty(100, 300, requires_grad=True)))
             self.b2 = nn.Parameter(torch.zeros(100, requires_grad=True))
-            self.W3 = nn.Parameter(init.xavier_uniform_(torch.empty(10, 100, requires_grad=True)))
+            self.W3 = nn.Parameter(init.kaiming_uniform_(torch.empty(10, 100, requires_grad=True)))
             self.b3 = nn.Parameter(torch.zeros(10, requires_grad=True))
         else:
-            self.W1 = nn.Parameter(init.xavier_uniform_(torch.empty(28*28, 300, requires_grad=True)))
+            self.W1 = nn.Parameter(init.kaiming_uniform_(torch.empty(28*28, 300, requires_grad=True)))
             self.b1 = nn.Parameter(torch.zeros(300, requires_grad=True))
-            self.W2 = nn.Parameter(init.xavier_uniform_(torch.empty(300, 100, requires_grad=True)))
+            self.W2 = nn.Parameter(init.kaiming_uniform_(torch.empty(300, 100, requires_grad=True)))
             self.b2 = nn.Parameter(torch.zeros(100, requires_grad=True))
-            self.W3 = nn.Parameter(init.xavier_uniform_(torch.empty(100, 10, requires_grad=True)))
+            self.W3 = nn.Parameter(init.kaiming_uniform_(torch.empty(100, 10, requires_grad=True)))
             self.b3 = nn.Parameter(torch.zeros(10, requires_grad=True))
     # Define layers
     def forward(self, x):

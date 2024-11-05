@@ -68,7 +68,7 @@ def calculate_mean_std(loader):
 
     return mean, std
 
-def load_data(train=True, shuffle=False, download=True, num_workers=1, total_ranks=1, batch_size=64, seed=42, transform=None):
+def load_data(train=True, shuffle=False, download=True, num_workers=1, rank=0, total_ranks=1, batch_size=64, seed=42, transform=None):
     '''MNIST data loader'''
     if transform == None:
         transform = transforms.Compose([transforms.ToTensor()])
@@ -95,12 +95,12 @@ def partition_dataset(batch_size, mean, std, rank, total_ranks, num_cores, seed)
     ])
 
     # Train data loader
-    trainloader = load_data(train=True, shuffle=True, download=False, 
-        num_workers=num_cores, total_ranks=total_ranks, batch_size=batch_size, transform=transform_train)
+    trainloader = load_data(train=True, shuffle=True, download=False, num_workers=num_cores, 
+        rank=rank, total_ranks=total_ranks, batch_size=batch_size, transform=transform_train)
 
     # Test data loader
     testloader = load_data(train=False, shuffle=False, download=False, num_workers=num_cores, 
-        total_ranks=total_ranks, batch_size=batch_size, transform=transform_test)
+        rank = rank, total_ranks=total_ranks, batch_size=batch_size, transform=transform_test)
     return trainloader, testloader
 
 def average_gradients(model):
@@ -137,9 +137,9 @@ def evaluate_model(model, test_loader, device, rank, total_ranks, epochs, epoch=
     # reduce results
     # Gather results from all GPUs
     if (total_ranks > 1):
-        #correct = torch.tensor(correct).to(device)
-        #samples = torch.tensor(samples).to(device)
-        #test_loss = torch.tensor(test_loss).to(device)
+        correct = torch.tensor(correct).to(device)
+        samples = torch.tensor(samples).to(device)
+        test_loss = torch.tensor(test_loss).to(device)
         dist.reduce(correct, dst=0, op=dist.ReduceOp.SUM)
         dist.reduce(samples, dst=0, op=dist.ReduceOp.SUM)
         dist.reduce(test_loss, dst=0, op=dist.ReduceOp.SUM)
@@ -208,7 +208,7 @@ def setup_and_train(kernel, rank, total_ranks, batch_size, epochs, learning_rate
     if (mixed == 'mixed_tc'): torch.set_float32_matmul_precision('medium')
     # Set master address and port
     os.environ['MASTER_ADDR'] = '127.0.0.1'
-    os.environ['MASTER_PORT'] = '29500'
+    os.environ['MASTER_PORT'] = '27500'
     # Initialize process group
     dist.init_process_group(backend, rank=rank, world_size=total_ranks)
 
@@ -227,6 +227,7 @@ def setup_and_train(kernel, rank, total_ranks, batch_size, epochs, learning_rate
     else:
         mean, std = torch.tensor(0.0), torch.tensor(0.0)
     if (backend=='nccl'): mean, std = mean.to(device), std.to(device)
+    torch.cuda.synchronize(device)
     dist.broadcast(mean, src=0)
     dist.broadcast(std, src=0)
     if (backend=='nccl'):
@@ -237,7 +238,7 @@ def setup_and_train(kernel, rank, total_ranks, batch_size, epochs, learning_rate
     train_loader, test_loader = partition_dataset(batch_size, mean, std, rank, total_ranks, num_cores, seed=seed)
 
     # Train model
-    train_model(model, train_loader, test_loader, optimizer, device, rank, total_ranks, epochs, mixed=(mixed=='mixed_amp'), test=test) 
+    train_model(model, train_loader, test_loader, optimizer, device, rank, total_ranks, epochs, mixed=(mixed=='mixed_amp'), test=test)
 
     # Test Model
     evaluate_model(model, test_loader, device, rank, total_ranks, epochs, epoch=-1, mixed=(mixed=='mixed_amp'))
